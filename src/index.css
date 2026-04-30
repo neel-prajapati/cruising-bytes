@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark-900 text-white overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+/* Glassmorphism effect */
+.glass {
+  @apply backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl;
+}
+
+.glass-sm {
+  @apply backdrop-blur-md bg-white/5 border border-white/10 rounded-xl;
+}
+
+/* Glowing effects */
+.glow-purple {
+  @apply shadow-lg shadow-purple-500/50;
+}
+
+.glow-purple-lg {
+  @apply shadow-2xl shadow-purple-500/50;
+}
+
+.glow-purple-md {
+  @apply shadow-lg shadow-purple-500/30;
+}
+
+.glow-cyan {
+  @apply shadow-lg shadow-cyan-400/30;
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  @apply bg-gradient-to-r from-primary-700 via-primary-600 to-primary-500;
+}
+
+.gradient-accent {
+  @apply bg-gradient-to-r from-primary-600 to-accent-purple;
+}
+
+.gradient-dark {
+  @apply bg-gradient-to-br from-dark-800 via-dark-900 to-dark-900;
+}
+
+/* Smooth transitions */
+.transition-all {
+  @apply transition duration-300 ease-out;
+}
+
+.transition-smooth {
+  @apply transition-all duration-500;
+}
+
+/* Text gradients */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-accent-purple;
+}
+
+.text-gradient-cyan {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-cyan to-primary-500;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-600 rounded-full hover:bg-primary-500;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-500;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: rgb(123, 44, 191) rgb(15, 20, 48);
+  scrollbar-width: thin;
+}
+
+/* Utility animations */
+.animate-float-slow {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Before/After pseudo elements for effects */
+.relative-glow::before {
+  content: '';
+  @apply absolute -inset-0.5 bg-gradient-to-r from-primary-600 to-accent-purple rounded-lg blur opacity-30 group-hover:opacity-100 transition-opacity duration-300;
+}
+
+/* Button reset */
+button {
+  @apply transition-all duration-300;
+}
+
+button:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-400;
+}
+
+/* Link underlines */
+a {
+  @apply transition-colors duration-300;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-primary-600 text-white;
+}
+
+::-moz-selection {
+  @apply bg-primary-600 text-white;
+}
+
+/* Smooth page transitions */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
