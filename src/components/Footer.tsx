@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { GitFork, Share2, ExternalLink, Mail } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: GitFork, href: '#', label: 'GitHub' },
+    { icon: Share2, href: '#', label: 'LinkedIn' },
+    { icon: ExternalLink, href: '#', label: 'Twitter' },
     { icon: Mail, href: '#', label: 'Email' },
   ];
 
