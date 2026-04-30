@@ -68,34 +68,47 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-dark overflow-hidden">
-      {/* Background elements */}
+    <section id="services" className="relative py-32 px-4 sm:px-6 lg:px-8 bg-gradient-dark overflow-hidden">
+      {/* Premium background elements */}
       <motion.div
-        className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl"
-        animate={{ y: [0, 50, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-600/15 rounded-full blur-3xl"
+        animate={{ y: [0, 60, 0], x: [0, 40, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-1/2 w-[500px] h-[500px] bg-accent-purple/10 rounded-full blur-3xl"
+        animate={{ y: [0, -60, 0], x: [0, -40, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section header */}
+        {/* Section header - Enhanced */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.23, 0.86, 0.39, 0.96] }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <motion.div
+            className="inline-block mb-4 px-4 py-2 rounded-full border border-primary-400/30 bg-primary-400/5"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <p className="text-sm font-semibold text-primary-400">PREMIUM SOLUTIONS</p>
+          </motion.div>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Our <span className="text-gradient">Services</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Comprehensive solutions tailored to elevate your digital presence and achieve your business goals.
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+            Comprehensive, cutting-edge solutions meticulously crafted to elevate your digital presence and accelerate your business growth.
           </p>
         </motion.div>
 
-        {/* Services grid */}
+        {/* Services grid - Premium spacing */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -107,44 +120,72 @@ export default function Services() {
               <motion.div
                 key={service.title}
                 variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="group"
+                whileHover={{ y: -15, transition: { duration: 0.3 } }}
+                className="group h-full"
               >
-                <div className="relative glass h-full p-8 rounded-2xl hover:border-primary-400/50 transition-colors duration-300 overflow-hidden">
-                  {/* Gradient overlay on hover */}
-                  <div className={`absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-full blur-3xl`} />
+                <div className="relative glass h-full p-8 rounded-2xl border border-white/10 group-hover:border-primary-400/40 overflow-hidden transition-all duration-500 shadow-lg group-hover:shadow-2xl group-hover:shadow-purple-500/20">
+                  {/* Animated gradient overlay */}
+                  <motion.div
+                    className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-15 transition-opacity duration-700 rounded-full blur-3xl`}
+                    animate={{ scale: [1, 1.2, 1], opacity: [0, 0.15, 0] }}
+                    transition={{ duration: 6, repeat: Infinity }}
+                  />
 
-                  <div className="relative z-10">
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-7 h-7 text-white" />
-                    </div>
+                  {/* Top divider accent */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  <div className="relative z-10 flex flex-col h-full">
+                    {/* Icon - Enhanced */}
+                    <motion.div
+                      className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300`}
+                      whileHover={{ scale: 1.15, rotate: 10 }}
+                      transition={{ type: 'spring', stiffness: 200 }}
+                    >
+                      <Icon className="w-8 h-8 text-white" />
+                    </motion.div>
 
                     {/* Title and description */}
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-gradient transition-all duration-300">
+                    <h3 className="text-2xl font-bold mb-4 group-hover:text-gradient transition-all duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-gray-400 mb-6 leading-relaxed">
+                    <p className="text-gray-400 mb-8 leading-relaxed flex-grow font-light text-base">
                       {service.description}
                     </p>
 
-                    {/* Features */}
-                    <div className="space-y-2">
-                      {service.features.map((feature) => (
-                        <div key={feature} className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary-400" />
-                          <span className="text-sm text-gray-300">{feature}</span>
-                        </div>
+                    {/* Features - Enhanced */}
+                    <div className="space-y-3 mb-8">
+                      {service.features.map((feature, i) => (
+                        <motion.div
+                          key={feature}
+                          className="flex items-center gap-3"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                        >
+                          <motion.div
+                            className="w-2 h-2 rounded-full bg-gradient-to-r from-primary-400 to-accent-cyan"
+                            whileHover={{ scale: 1.5 }}
+                          />
+                          <span className="text-sm text-gray-300 font-medium">{feature}</span>
+                        </motion.div>
                       ))}
                     </div>
 
-                    {/* Learn more link */}
-                    <a
+                    {/* Learn more link - Premium */}
+                    <motion.a
                       href="#contact"
-                      className="mt-6 inline-flex items-center text-primary-400 hover:text-primary-300 transition-colors duration-300 font-semibold"
+                      className="inline-flex items-center text-primary-400 hover:text-primary-300 transition-colors duration-300 font-semibold text-sm uppercase tracking-wider group/link"
+                      whileHover={{ x: 4 }}
                     >
-                      Learn more →
-                    </a>
+                      Explore More
+                      <motion.span
+                        className="ml-2 text-lg"
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </motion.span>
+                    </motion.a>
                   </div>
                 </div>
               </motion.div>

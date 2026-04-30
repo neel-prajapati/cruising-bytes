@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedLogo from './AnimatedLogo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,86 +14,108 @@ export default function Navbar() {
     { label: 'Contact', href: '#contact' },
   ];
 
-  return (
-    <nav className="fixed top-0 w-full z-50 glass border-b border-white/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex-shrink-0"
-          >
-            <a href="#" className="text-2xl font-bold text-gradient">
-              Cruising Bytes
-            </a>
-          </motion.div>
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setIsOpen(false);
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+    // Extract the section id from href
+    const sectionId = href.replace('#', '');
+    const element = document.getElementById(sectionId);
+
+    if (element) {
+      // Use scrollIntoView with smooth behavior
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Update the URL
+      window.history.pushState(null, null, href);
+    }
+  };
+
+  return (
+    <nav className="fixed top-0 w-full z-50 glass border-b border-white/15 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Premium Animated Logo */}
+          <AnimatedLogo />
+
+          {/* Desktop Navigation - Enhanced */}
+          <div className="hidden md:flex items-center gap-10">
             {navItems.map((item, idx) => (
               <motion.a
                 key={item.label}
                 href={item.href}
-                initial={{ opacity: 0, y: -10 }}
+                onClick={(e) => handleNavClick(e, item.href)}
+                initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="text-gray-300 hover:text-primary-400 transition-colors duration-300 relative group"
+                transition={{ duration: 0.6, delay: idx * 0.08 }}
+                className="text-gray-300 hover:text-white transition-colors duration-300 relative group font-medium text-sm cursor-pointer"
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-1 bg-gradient-primary group-hover:w-full transition-all duration-300 rounded-full" />
               </motion.a>
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* Premium CTA Button */}
           <motion.a
             href="#contact"
+            onClick={(e) => handleNavClick(e, '#contact')}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="hidden md:block px-6 py-2 rounded-lg bg-gradient-primary text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"
+            className="hidden md:block px-7 py-2.5 rounded-lg bg-gradient-primary text-white font-semibold hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 text-sm cursor-pointer"
+            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -12px rgba(157, 78, 221, 0.4)' }}
+            whileTap={{ scale: 0.95 }}
           >
             Get Started
           </motion.a>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden"
+            className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 relative z-50"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            type="button"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? (
+              <X size={24} className="text-white" />
+            ) : (
+              <Menu size={24} className="text-white" />
+            )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden py-4 space-y-2"
-          >
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="block px-4 py-2 rounded-lg text-gray-300 hover:bg-white/10 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              className="block px-4 py-2 rounded-lg bg-gradient-primary text-white font-semibold text-center"
-              onClick={() => setIsOpen(false)}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden overflow-hidden border-t border-white/10"
             >
-              Get Started
-            </a>
-          </motion.div>
-        )}
+              <div className="py-4 space-y-2 px-2">
+                {navItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="block px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium active:bg-white/20 cursor-pointer"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, '#contact')}
+                  className="block px-4 py-3 rounded-lg bg-gradient-primary text-white font-semibold text-center hover:shadow-lg hover:shadow-purple-500/40 transition-all duration-200 active:scale-95 mt-2 cursor-pointer"
+                >
+                  Get Started
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );

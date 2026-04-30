@@ -74,87 +74,112 @@ export default function Portfolio() {
   };
 
   return (
-    <section id="portfolio" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background */}
+    <section id="portfolio" className="relative py-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Premium background */}
       <div className="absolute inset-0 bg-gradient-dark" />
       <motion.div
-        className="absolute top-1/2 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl"
-        animate={{ y: [0, 50, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-accent-purple/12 rounded-full blur-3xl"
+        animate={{ y: [0, 70, 0], x: [0, 30, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-primary-600/08 rounded-full blur-3xl"
+        animate={{ y: [0, -60, 0], x: [0, -40, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Section header */}
+        {/* Premium Section header */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -20 }}
+          className="text-center mb-24"
+          initial={{ opacity: 0, y: -40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: [0.23, 0.86, 0.39, 0.96] }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <motion.div
+            className="inline-block mb-6 px-4 py-2 rounded-full border border-primary-400/30 bg-primary-400/5"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <p className="text-sm font-semibold text-primary-400">OUR LATEST WORK</p>
+          </motion.div>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Showcase of our latest and greatest work across web development, design, and digital marketing.
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+            Showcase of our most impactful work across web development, design, and digital marketing excellence.
           </p>
         </motion.div>
 
-        {/* Projects grid */}
+        {/* Premium Projects grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {projects.map((project) => (
+          {projects.map((project, idx) => (
             <motion.div
               key={project.title}
               variants={itemVariants}
-              whileHover={{ y: -10 }}
-              className="group cursor-pointer"
+              whileHover={{ y: -20, transition: { duration: 0.3 } }}
+              className="group cursor-pointer h-full"
             >
-              <div className="relative glass rounded-2xl overflow-hidden h-full flex flex-col">
-                {/* Image area */}
+              <div className="relative glass rounded-2xl overflow-hidden h-full flex flex-col border border-white/10 group-hover:border-primary-400/40 shadow-lg group-hover:shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-300">
+                {/* Image area - Enhanced */}
                 <div
-                  className="w-full h-48 relative overflow-hidden group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-56 relative overflow-hidden"
                   style={{ background: project.image }}
                 >
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                  {/* Overlay with gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/40 group-hover:from-black/30 group-hover:via-black/20 group-hover:to-black/50 transition-all duration-300 flex items-center justify-center">
                     <motion.div
-                      initial={{ scale: 0 }}
-                      whileHover={{ scale: 1 }}
-                      className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30"
+                      initial={{ scale: 0, rotate: -45 }}
+                      whileHover={{ scale: 1, rotate: 0 }}
+                      className="w-16 h-16 rounded-full bg-white/15 backdrop-blur-lg flex items-center justify-center border-2 border-white/40 group-hover:bg-white/25 group-hover:border-white/60 transition-all duration-300 shadow-xl"
                     >
-                      <ExternalLink className="w-6 h-6 text-white" />
+                      <ExternalLink className="w-7 h-7 text-white" />
                     </motion.div>
                   </div>
+
+                  {/* Accent bar */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-600 via-primary-500 to-accent-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                {/* Content area */}
-                <div className="flex-1 p-6 flex flex-col">
-                  <div className="mb-4">
-                    <p className="text-sm text-primary-400 font-semibold mb-2">
+                {/* Content area - Enhanced spacing */}
+                <div className="flex-1 p-8 flex flex-col">
+                  <div className="mb-6">
+                    <motion.p
+                      className="text-xs text-primary-400 font-bold uppercase tracking-widest mb-3"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      transition={{ delay: 0.2 + idx * 0.1 }}
+                    >
                       {project.category}
-                    </p>
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-gradient transition-all duration-300">
+                    </motion.p>
+                    <h3 className="text-2xl font-bold mb-3 group-hover:text-gradient transition-all duration-300 leading-tight">
                       {project.title}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-400 text-sm leading-relaxed font-light">
                       {project.description}
                     </p>
                   </div>
 
-                  {/* Tags */}
+                  {/* Premium Tags */}
                   <div className="flex flex-wrap gap-2 mt-auto">
-                    {project.tags.map((tag) => (
-                      <span
+                    {project.tags.map((tag, i) => (
+                      <motion.span
                         key={tag}
-                        className="px-3 py-1 rounded-full text-xs bg-white/10 text-gray-300 border border-white/20 group-hover:border-primary-400/50 transition-colors duration-300"
+                        className="px-3 py-1.5 rounded-full text-xs bg-white/5 text-gray-300 border border-white/15 group-hover:border-primary-400/40 transition-all duration-300 font-medium"
+                        initial={{ opacity: 0, y: 5 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + i * 0.05 }}
                       >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
