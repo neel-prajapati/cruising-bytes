@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import AnimatedLogo from './AnimatedLogo';
+import { useState, useEffect } from 'react'
+import { Menu, X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import AnimatedLogo from './AnimatedLogo'
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [targetSection, setTargetSection] = useState<string | null>(null)
 
   const navItems = [
     { label: 'Home', href: '#home' },
@@ -12,32 +13,49 @@ export default function Navbar() {
     { label: 'About', href: '#about' },
     { label: 'Portfolio', href: '#portfolio' },
     { label: 'Contact', href: '#contact' },
-  ];
+  ]
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    setIsOpen(false);
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault()
+    setIsOpen(false)
 
-    // Extract the section id from href
-    const sectionId = href.replace('#', '');
-    const element = document.getElementById(sectionId);
+    const sectionId = href.replace('#', '')
+    setTargetSection(sectionId)
+  }
 
-    if (element) {
-      // Use scrollIntoView with smooth behavior
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Update the URL
-      window.history.pushState(null, null, href);
+  // 🔥 Scroll AFTER menu closes (fixes mobile issue)
+  useEffect(() => {
+    if (!isOpen && targetSection) {
+      const element = document.getElementById(targetSection)
+
+      if (element) {
+        const navbarOffset = 80 // h-20 = 80px
+        const y =
+          element.getBoundingClientRect().top +
+          window.pageYOffset -
+          navbarOffset
+
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: y,
+            behavior: 'smooth',
+          })
+
+          window.history.pushState(null, '', `#${targetSection}`)
+        })
+      }
+
+      setTargetSection(null)
     }
-  };
+  }, [isOpen, targetSection])
 
   return (
     <nav className="fixed top-0 w-full z-50 glass border-b border-white/15 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Premium Animated Logo */}
           <AnimatedLogo />
 
-          {/* Desktop Navigation - Enhanced */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
             {navItems.map((item, idx) => (
               <motion.a
@@ -55,7 +73,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Premium CTA Button */}
+          {/* CTA */}
           <motion.a
             href="#contact"
             onClick={(e) => handleNavClick(e, '#contact')}
@@ -63,13 +81,17 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="hidden md:block px-7 py-2.5 rounded-lg bg-gradient-primary text-white font-semibold hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 text-sm cursor-pointer"
-            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -12px rgba(157, 78, 221, 0.4)' }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow:
+                '0 20px 40px -12px rgba(157, 78, 221, 0.4)',
+            }}
             whileTap={{ scale: 0.95 }}
           >
             Get Started
           </motion.a>
 
-          {/* Mobile menu button */}
+          {/* Mobile Toggle */}
           <button
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors duration-200 relative z-50"
             onClick={() => setIsOpen(!isOpen)}
@@ -105,6 +127,7 @@ export default function Navbar() {
                     {item.label}
                   </a>
                 ))}
+
                 <a
                   href="#contact"
                   onClick={(e) => handleNavClick(e, '#contact')}
@@ -118,5 +141,5 @@ export default function Navbar() {
         </AnimatePresence>
       </div>
     </nav>
-  );
+  )
 }
